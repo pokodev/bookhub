@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
-import { ConfigHelper } from '@oceanprotocol/lib'
-import { OceanProvider, useOcean } from '@oceanprotocol/react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { NetworkMonitor } from './components/NetworkMonitor'
-import Header from './components/Header'
-import Collection from './components/Collection'
-import MusicDetails from './components/MusicDetails'
-import Register from './components/Register'
-import './App.css'
+import React, { useState } from "react"
+import { ConfigHelper } from "@oceanprotocol/lib"
+import { OceanProvider, useOcean } from "@oceanprotocol/react"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom"
+import { NetworkMonitor } from "./components/NetworkMonitor"
+import Header from "./components/Header"
+import Collection from "./components/Collection"
+import BookDetails from "./components/BookDetails"
+import Publish from "./components/Publish"
+import "./App.css"
 
 const configRinkeby = new ConfigHelper().getConfig(
   process.env.REACT_APP_NETWORK
@@ -17,7 +22,7 @@ const providerOptions = {}
 
 export const web3ModalOpts = {
   cacheProvider: true,
-  providerOptions,
+  providerOptions
 }
 
 function App() {
@@ -28,19 +33,30 @@ function App() {
       <NetworkMonitor setConfig={setConfig} />
       <Router>
         <Switch>
-          <div className='App'>
-            <Header />
-            <div className='divider'></div>
-            <Route path='/asset/:did' component={MusicDetails} />
+          <div className="App">
+            <Header config={config} />
+            <div className="divider"></div>
             <Route
-              path='/'
+              path="/asset/:did"
+              component={() => <BookDetails config={config} />}
+            />
+            <Route
+              path="/account"
               exact
-              component={() => <Collection config={config} />}
+              component={() => <Collection config={config} myAssets={true} />}
             />
             <Route
-              path='/register'
-              component={() => <Register config={config} />}
+              path="/register"
+              component={() => <Publish config={config} />}
             />
+            <Route
+              path="/assets/:term"
+              exact
+              component={() => <Collection config={config} myAssets={false} />}
+            />
+            <Route path="/" exact>
+              <Redirect to="/assets/home" />
+            </Route>
           </div>
         </Switch>
       </Router>

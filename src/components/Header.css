@@ -1,6 +1,6 @@
 .headerContainer {
   padding: 2%;
-  background: #4a5156;
+  background: #f3f3f3;
 
   /* These do the magic */
   position: fixed;
@@ -16,7 +16,15 @@
 }
 
 .brand {
-  color: #fff;
+  color: #333258;
+  font-size: 30px;
+}
+.brandContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .topContainer {
   flex: 1;
@@ -41,4 +49,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.user {
+  cursor: pointer;
+  background-color: "#f3f3f3";
 }
